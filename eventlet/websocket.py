@@ -766,7 +766,7 @@ class RFC6455WebSocket(WebSocket):
 
         compress_bit = 0
         compressor = self._get_permessage_deflate_enc()
-        if message and compressor:
+        if message and compressor and control_code not in (8, 9, 0xa):
             message = compressor.compress(message)
             message += compressor.flush(zlib.Z_SYNC_FLUSH)
             assert message[-4:] == b"\x00\x00\xff\xff"
